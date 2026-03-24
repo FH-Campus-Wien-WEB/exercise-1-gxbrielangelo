@@ -15,8 +15,6 @@ app.get("/movies", function (req, res) {
   ];
   //res.send("!dlrow olleH");
   res.send(JSON.parse(movies[0]));
-  console.log(JSON.parse(movies[0]));
-  console.log(JSON.parse(movies[0]).Title);
 });
 
 app.listen(3000);

@@ -1,37 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movies!</title>
     <style>
-        /* Part 3: Your styling goes here */
+      /* Part 3: Your styling goes here */
     </style>
     <script>
-        function reverseString(s) {
-            return s.split("").reverse().join("");
-        }
+      function reverseString(s) {
+        return s.split("").reverse().join("");
+      }
 
-        window.onload = function () {
-            const xhr = new XMLHttpRequest()
-            xhr.onload = function () {
-                const bodyElement = document.querySelector("body")
-                if (xhr.status == 200) {
-		            /* Part 2: Build the HTML elements here and append them to the body */ 
-                    bodyElement.append(reverseString(xhr.responseText))
-                } else {
-                    bodyElement.append("Daten konnten nicht geladen werden, Status " + xhr.status + " - " + xhr.statusText)
-                }
-            }
-            xhr.open("GET", "/movies")
-            xhr.send()
-        }
+      window.onload = function () {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          const bodyElement = document.querySelector("body");
+          if (xhr.status == 200) {
+            /* Part 2: Build the HTML elements here and append them to the body */
+            //bodyElement.append(reverseString(xhr.responseText))
+            var movie = JSON.parse(xhr.responseText);
+
+            var poster = document.createElement("img");
+            poster.src = movie.Poster;
+
+            var title = document.createElement("h1");
+            title.textContent = movie.Title;
+
+            var runtime = document.createElement("p");
+            runtime.textContent = "Runtime " + movie.Runtime + "m";
+
+            var released = document.createElement("p");
+            released.textContent = "Released on " + movie.Released;
+
+            var genres = document.createElement("p");
+            genres.textContent = movie.Actors.join(", ");
+
+            var plot = document.createElement("p");
+            plot.textContent = movie.Plot;
+
+            var directorsHeadline = document.createElement("h1");
+            directorsHeadline.textContent = "Directors";
+
+            var directors = document.createElement("ul");
+            movie.Directors.forEach((director) => {
+              directors.innerHTML += "<li> " + director + "</li>";
+            });
+
+            var writersHeadline = document.createElement("h1");
+            writersHeadline.textContent = "Writers";
+
+            var writers = document.createElement("ul");
+            movie.Writers.forEach((writer) => {
+              writers.innerHTML += "<li> " + writer + "</li>";
+            });
+
+            var actorsHeadline = document.createElement("h1");
+            actorsHeadline.textContent = "Actors";
+
+            var actors = document.createElement("ul");
+            movie.Actors.forEach((actor) => {
+              actors.innerHTML += "<li> " + actor + "</li>";
+            });
+
+            bodyElement.append(
+              poster,
+              title,
+              runtime,
+              released,
+              genres,
+              plot,
+              directorsHeadline,
+              directors,
+              writersHeadline,
+              writers,
+              actorsHeadline,
+              actors,
+            );
+          } else {
+            bodyElement.append(
+              "Daten konnten nicht geladen werden, Status " +
+                xhr.status +
+                " - " +
+                xhr.statusText,
+            );
+          }
+        };
+        xhr.open("GET", "/movies");
+        xhr.send();
+      };
     </script>
+  </head>
 
-</head>
-
-<body>
-</body>
-
+  <body></body>
 </html>
