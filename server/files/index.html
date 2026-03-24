@@ -25,6 +25,16 @@
         font-weight: bold;
         margin: 20px;
       }
+
+      .genre {
+        background-color: #a9a9a9;
+        border: 2px solid;
+        border-color: black;
+        border-radius: 5px;
+        padding: 5px;
+        margin-right: 10px;
+        display: inline-block;
+      }
     </style>
     <script>
       function reverseString(s) {
@@ -54,7 +64,9 @@
             released.textContent = "Released on " + movie.Released;
 
             var genres = document.createElement("p");
-            genres.textContent = movie.Actors.join(", ");
+            movie.Genres.forEach((genre) => {
+              genres.innerHTML += '<span class="genre"> ' + genre + "</span>";
+            });
 
             var plot = document.createElement("p");
             plot.textContent = movie.Plot;
