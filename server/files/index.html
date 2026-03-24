@@ -15,6 +15,7 @@
         border-radius: 20px;
         max-width: 500px;
         padding: 20px;
+        margin-bottom: 20px;
       }
 
       img {
@@ -45,71 +46,76 @@
         const xhr = new XMLHttpRequest();
         xhr.onload = function () {
           const bodyElement = document.querySelector("body");
-          const articleElement = document.createElement("div");
           if (xhr.status == 200) {
             /* Part 2: Build the HTML elements here and append them to the body */
             //bodyElement.append(reverseString(xhr.responseText))
-            var movie = JSON.parse(xhr.responseText);
+            var movies = JSON.parse(xhr.responseText);
 
-            var poster = document.createElement("img");
-            poster.src = movie.Poster;
+            movies.forEach((RawMovie) => {
+              const articleElement = document.createElement("div");
 
-            var title = document.createElement("h1");
-            title.textContent = movie.Title;
+              var movie = JSON.parse(RawMovie);
 
-            var runtime = document.createElement("p");
-            runtime.textContent = "Runtime " + movie.Runtime + "m";
+              var poster = document.createElement("img");
+              poster.src = movie.Poster;
 
-            var released = document.createElement("p");
-            released.textContent = "Released on " + movie.Released;
+              var title = document.createElement("h1");
+              title.textContent = movie.Title;
 
-            var genres = document.createElement("p");
-            movie.Genres.forEach((genre) => {
-              genres.innerHTML += '<span class="genre"> ' + genre + "</span>";
+              var runtime = document.createElement("p");
+              runtime.textContent = "Runtime " + movie.Runtime + "m";
+
+              var released = document.createElement("p");
+              released.textContent = "Released on " + movie.Released;
+
+              var genres = document.createElement("p");
+              movie.Genres.forEach((genre) => {
+                genres.innerHTML += '<span class="genre"> ' + genre + "</span>";
+              });
+
+              var plot = document.createElement("p");
+              plot.textContent = movie.Plot;
+
+              var directorsHeadline = document.createElement("h1");
+              directorsHeadline.textContent = "Directors";
+
+              var directors = document.createElement("ul");
+              movie.Directors.forEach((director) => {
+                directors.innerHTML += "<li> " + director + "</li>";
+              });
+
+              var writersHeadline = document.createElement("h1");
+              writersHeadline.textContent = "Writers";
+
+              var writers = document.createElement("ul");
+              movie.Writers.forEach((writer) => {
+                writers.innerHTML += "<li> " + writer + "</li>";
+              });
+
+              var actorsHeadline = document.createElement("h1");
+              actorsHeadline.textContent = "Actors";
+
+              var actors = document.createElement("ul");
+              movie.Actors.forEach((actor) => {
+                actors.innerHTML += "<li> " + actor + "</li>";
+              });
+
+              articleElement.append(
+                poster,
+                title,
+                runtime,
+                released,
+                genres,
+                plot,
+                directorsHeadline,
+                directors,
+                writersHeadline,
+                writers,
+                actorsHeadline,
+                actors,
+              );
+              bodyElement.append(articleElement);
             });
-
-            var plot = document.createElement("p");
-            plot.textContent = movie.Plot;
-
-            var directorsHeadline = document.createElement("h1");
-            directorsHeadline.textContent = "Directors";
-
-            var directors = document.createElement("ul");
-            movie.Directors.forEach((director) => {
-              directors.innerHTML += "<li> " + director + "</li>";
-            });
-
-            var writersHeadline = document.createElement("h1");
-            writersHeadline.textContent = "Writers";
-
-            var writers = document.createElement("ul");
-            movie.Writers.forEach((writer) => {
-              writers.innerHTML += "<li> " + writer + "</li>";
-            });
-
-            var actorsHeadline = document.createElement("h1");
-            actorsHeadline.textContent = "Actors";
-
-            var actors = document.createElement("ul");
-            movie.Actors.forEach((actor) => {
-              actors.innerHTML += "<li> " + actor + "</li>";
-            });
-
-            articleElement.append(
-              poster,
-              title,
-              runtime,
-              released,
-              genres,
-              plot,
-              directorsHeadline,
-              directors,
-              writersHeadline,
-              writers,
-              actorsHeadline,
-              actors,
-            );
-            bodyElement.append(articleElement);
           } else {
             bodyElement.append(
               "Daten konnten nicht geladen werden, Status " +
